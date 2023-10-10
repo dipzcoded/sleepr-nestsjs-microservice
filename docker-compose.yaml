@@ -1,0 +1,57 @@
+services:
+  reservations:
+    build:
+      context: .
+      dockerfile: ./apps/reservations/Dockerfile
+      target: development
+    command: pnpm run start:dev reservations
+    env_file:
+      - ./apps/reservations/.env
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/usr/src/app
+      - shared-data:/usr/src/app/node_modules
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    command: pnpm run start:dev auth
+    env_file:
+      - ./apps/auth/.env
+    ports:
+      - '3001:3001'
+    volumes:
+      - .:/usr/src/app
+      - shared-data:/usr/src/app/node_modules
+
+  payment:
+    build:
+      context: .
+      dockerfile: ./apps/payment/Dockerfile
+      target: development
+    command: pnpm run start:dev payment
+    env_file:
+      - ./apps/payment/.env
+    volumes:
+      - .:/usr/src/app
+      - shared-data:/usr/src/app/node_modules
+
+  notification:
+    build:
+      context: .
+      dockerfile: ./apps/notification/Dockerfile
+      target: development
+    command: pnpm run start:dev notification
+    env_file:
+      - ./apps/notification/.env
+    volumes:
+      - .:/usr/src/app
+      - shared-data:/usr/src/app/node_modules
+
+  mongo:
+    image: mongo
+
+volumes:
+  shared-data:
